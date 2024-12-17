@@ -25,4 +25,8 @@ const configSchema = z.object({
     .refine((port) => port >= 1 && port <= 65535, {
       message: 'PORT must be greater than 1 and less than 65535',
     }),
+  POSTGRES_USER: z.string().trim().min(5),
+  POSTGRES_DB: z.string().trim().min(2),
+  POSTGRES_PASSWORD: z.string().trim().min(3),
+  POSTGRES_URL: z.string().trim().min(1),
 });
