@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
@@ -20,7 +24,7 @@ export class AuthService {
       return 'usuario creado';
     }
 
-    return 'usuario ya existe';
+    throw new BadRequestException('error creating user');
   }
 
   async loginUser(loginUserDto: LoginUserDto): Promise<{
