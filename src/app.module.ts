@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from 'env.validation';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -18,10 +20,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: configService.get<string>('POSTGRES_USER'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DB'),
-        entities: [],
+        entities: [User],
         synchronize: true,
       }),
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
