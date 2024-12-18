@@ -29,4 +29,12 @@ const configSchema = z.object({
   POSTGRES_DB: z.string().trim().min(2),
   POSTGRES_PASSWORD: z.string().trim().min(3),
   POSTGRES_URL: z.string().trim().min(1),
+  POSTGRES_HOST: z.string().trim().min(1),
+  POSTGRES_PORT: z
+    .string()
+    .regex(/^\d+$/, { message: 'POSTGRES PORT must be a number' })
+    .transform((val) => Number(val))
+    .refine((port) => port >= 1 && port <= 65535, {
+      message: 'POSTGRES PORT must be greater than 1 and less than 65535',
+    }),
 });
