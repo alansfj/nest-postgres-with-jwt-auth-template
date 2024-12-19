@@ -12,7 +12,7 @@ export function IsNotBlank(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: any) {
           return typeof value === 'string' && value.trim().length > 0;
         },
         defaultMessage(args: ValidationArguments) {
