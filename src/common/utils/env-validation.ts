@@ -37,4 +37,5 @@ const configSchema = z.object({
     .refine((port) => port >= 1 && port <= 65535, {
       message: 'POSTGRES PORT must be greater than 1 and less than 65535',
     }),
+  JWT_SECRET: z.string().trim().min(20),
 });

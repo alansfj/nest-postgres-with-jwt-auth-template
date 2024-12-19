@@ -6,11 +6,12 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+
 import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { LocalAuthGuard } from './local-auth.guard';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { Public } from 'src/decorators/is-public.decorator';
+import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Public } from 'src/common/decorators/is-public.decorator.nest';
 
 @Controller('auth')
 export class AuthController {
