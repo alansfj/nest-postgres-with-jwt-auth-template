@@ -38,4 +38,8 @@ const configSchema = z.object({
       message: 'POSTGRES PORT must be greater than 1 and less than 65535',
     }),
   JWT_SECRET: z.string().trim().min(20),
+  SALT_ROUNDS: z
+    .string()
+    .regex(/^\d+$/, { message: 'SALT_ROUNDS must be a number' })
+    .transform((val) => Number(val)),
 });

@@ -3,6 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
+
   @PrimaryGeneratedColumn()
   @Exclude()
   id: number;

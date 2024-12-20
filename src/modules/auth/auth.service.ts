@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
+import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @Injectable()
@@ -21,9 +22,12 @@ export class AuthService {
     throw new BadRequestException('error creating user');
   }
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findOneByEmail(email);
-    if (user && user.password === pass) {
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (user && isMatch) {
       return {
         id: user.id,
         email: user.email,
