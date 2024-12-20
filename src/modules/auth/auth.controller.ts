@@ -19,7 +19,7 @@ export class AuthController {
 
   @Post('register')
   @Public()
-  registerUser(@Body() createUserDto: CreateUserDto): Promise<string> {
+  registerUser(@Body() createUserDto: CreateUserDto) {
     return this.authService.registerUser(createUserDto);
   }
 

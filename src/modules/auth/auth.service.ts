@@ -11,13 +11,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async registerUser(createUserDto: CreateUserDto): Promise<string> {
+  async registerUser(createUserDto: CreateUserDto) {
     const user = await this.userService.findOneByEmail(createUserDto.email);
 
     if (!user) {
-      await this.userService.create(createUserDto);
-
-      return 'usuario creado';
+      return this.userService.create(createUserDto);
     }
 
     throw new BadRequestException('error creating user');
