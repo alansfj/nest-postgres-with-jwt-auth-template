@@ -1,8 +1,8 @@
 {
-  "name": "my-nest-template",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "nest-postgres-with-jwt-auth-template",
+  "version": "1.0.0",
+  "description": "Nest proyect template with Postgres and basic user auth with JWT",
+  "author": "Alan Soto",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
