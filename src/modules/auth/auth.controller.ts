@@ -5,13 +5,18 @@ import {
   Post,
   Request,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/dtos/create-user.dto';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Public } from 'src/common/decorators/is-public.decorator.nest';
+import { ZodValidationPipe } from 'src/common/pipes/validation.pipe';
+import {
+  CreateUserDto,
+  createUserSchema,
+} from 'src/common/schemas/create-user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -19,6 +24,7 @@ export class AuthController {
 
   @Post('register')
   @Public()
+  @UsePipes(new ZodValidationPipe(createUserSchema))
   registerUser(@Body() createUserDto: CreateUserDto) {
     return this.authService.registerUser(createUserDto);
   }

@@ -4,7 +4,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '../../entities/user.entity';
-import { CreateUserDto } from '../../dtos/create-user.dto';
+import { CreateUserDto } from 'src/common/schemas/create-user.schema';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
