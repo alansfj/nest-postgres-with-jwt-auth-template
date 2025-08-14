@@ -1,4 +1,8 @@
-import { PipeTransform, BadRequestException } from '@nestjs/common';
+import {
+  PipeTransform,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ZodSchema, ZodError, z } from 'zod';
 
 export class ZodValidationPipe implements PipeTransform {
@@ -18,7 +22,9 @@ export class ZodValidationPipe implements PipeTransform {
         const messages = error.errors.map((err) => err.message);
         throw new BadRequestException(messages);
       }
-      throw error;
+      console.log(error);
+
+      throw new InternalServerErrorException('Internal server error.');
     }
   }
 }
