@@ -4,7 +4,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '../../entities/user.entity';
-import { CreateUserDto } from 'src/common/schemas/create-user.schema';
+import { CreateUserDtoInput } from 'src/dtos/create-user/create-user.dto.input';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -15,8 +15,8 @@ export class UserService {
     private configService: ConfigService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const { password, ...rest } = createUserDto;
+  async create(createUserDtoInput: CreateUserDtoInput): Promise<User> {
+    const { password, ...rest } = createUserDtoInput;
 
     const newUser = {
       ...rest,

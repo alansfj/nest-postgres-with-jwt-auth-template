@@ -7,5 +7,3 @@ export const createUserSchema = z.object({
   email: nonEmptyString('email').email({ message: 'Invalid email format' }),
   password: nonEmptyString('password'),
 });
-
-export type CreateUserDto = Required<z.infer<typeof createUserSchema>>;
