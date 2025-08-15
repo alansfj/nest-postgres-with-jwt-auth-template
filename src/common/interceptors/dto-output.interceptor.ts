@@ -10,20 +10,27 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class DtoOutputInterceptor<T> implements NestInterceptor<T, any> {
-  constructor(private readonly dto: new (...args: any[]) => any) {}
+  constructor(private readonly dto?: new (...args: any[]) => any) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
         if (!data) return data;
 
-        if (Array.isArray(data)) {
-          return data.map((item) =>
-            plainToClass(this.dto, instanceToPlain(item)),
-          );
-        }
+        const transformItem = (item: any) => {
+          const plain =
+            Object.getPrototypeOf(item) !== Object.prototype
+              ? instanceToPlain(item)
+              : item;
 
-        return plainToClass(this.dto, instanceToPlain(data));
+          return this.dto
+            ? instanceToPlain(plainToClass(this.dto, plain))
+            : plain;
+        };
+
+        return Array.isArray(data)
+          ? data.map(transformItem)
+          : transformItem(data);
       }),
     );
   }

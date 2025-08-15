@@ -10,10 +10,8 @@ export class CreateUserDtoOutput {
   @Expose()
   lastName: string;
 
-  //   para agregar campos calculados:
-
-  //   @Expose()
-  //   get fullName(): string {
-  //     return `${this.firstName} ${this.lastName}`;
-  //   }
+  @Expose()
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }
