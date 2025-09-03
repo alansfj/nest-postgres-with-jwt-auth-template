@@ -27,3 +27,18 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Generate Migrations
+
+To generate migrations use the command
+
+```bash
+$ npx typeorm-ts-node-commonjs migration:generate migrations/<migration-name> -d src/data-source.ts -p
+```
+
+## Run Migrations
+
+To run pending migrations use the command 
+
+```bash
+$ npm run typeorm migration:run -- -d src/data-source.ts  
+```
