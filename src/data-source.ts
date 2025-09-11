@@ -1,6 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config } from 'dotenv';
 
+import { User } from './entities/user.entity';
+
 config();
 
 export const dataSourceOptions: DataSourceOptions = {
@@ -10,8 +12,8 @@ export const dataSourceOptions: DataSourceOptions = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  migrations: ['migrations/*.ts'],
+  entities: [User],
+  migrations: [__dirname + '/../migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 };
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserModule } from 'src/modules/user/user.module';
@@ -12,9 +12,12 @@ import { dataSourceOptions } from './data-source';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate, expandVariables: true }),
-    TypeOrmModule.forRoot({
-      ...dataSourceOptions,
-      autoLoadEntities: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: () => ({
+        ...dataSourceOptions,
+      }),
     }),
     UserModule,
     AuthModule,
