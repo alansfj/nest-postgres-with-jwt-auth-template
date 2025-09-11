@@ -40,5 +40,5 @@ npx typeorm-ts-node-commonjs migration:generate migrations/<migration-name> -d s
 To run pending migrations use the command 
 
 ```bash
-npm run typeorm migration:run -- -d src/data-source.ts  
+npx typeorm-ts-node-commonjs migration:run -d src/data-source.ts
 ```
