@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '../../entities/user.entity';
@@ -15,29 +15,41 @@ export class UserService {
     private configService: ConfigService,
   ) {}
 
+  private qb(alias = 'user') {
+    return this.usersRepository.createQueryBuilder(alias);
+  }
+
   async create(createUserDtoInput: CreateUserDtoInput): Promise<User> {
     const { password, ...rest } = createUserDtoInput;
 
-    const newUser = {
-      ...rest,
-      password: await bcrypt.hash(
-        password,
-        this.configService.get<number>('SALT_ROUNDS'),
-      ),
-    };
+    const hashedPassword = await bcrypt.hash(
+      password,
+      this.configService.get<number>('SALT_ROUNDS'),
+    );
 
-    return await this.usersRepository.save(new User(newUser));
+    const newUser = this.usersRepository.create({
+      ...rest,
+      password: hashedPassword,
+    });
+
+    return await this.usersRepository.save(newUser);
   }
 
-  async findOneById(id: number) {
-    return await this.usersRepository.findOneBy({ id });
+  async findOneById(id: number): Promise<User | null> {
+    return await this.qb().where('user.id = :id', { id }).getOne();
   }
 
   async findOneByEmail(email: string): Promise<User | null> {
-    return await this.usersRepository.findOneBy({ email });
+    return await this.qb().where('user.email = :email', { email }).getOne();
   }
 
-  async findOneBy(options: FindOptionsWhere<User>): Promise<User | null> {
-    return await this.usersRepository.findOneBy(options);
+  async findOneBy(options: Partial<User>): Promise<User | null> {
+    const qb = this.qb();
+
+    Object.entries(options).forEach(([key, value]) => {
+      qb.andWhere(`user.${key} = :${key}`, { [key]: value });
+    });
+
+    return await qb.getOne();
   }
 }

@@ -3,12 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
-
   @PrimaryGeneratedColumn()
-  @Exclude()
   id: number;
 
   @Column({ unique: true, length: 100 })
@@ -20,7 +15,7 @@ export class User {
   @Column({ length: 50 })
   lastName: string;
 
-  @Column()
+  @Column({ select: false })
   @Exclude()
   password: string;
 }
