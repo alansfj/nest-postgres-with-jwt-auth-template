@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User {
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
