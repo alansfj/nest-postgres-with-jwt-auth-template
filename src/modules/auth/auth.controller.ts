@@ -15,9 +15,9 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Public } from 'src/common/decorators/is-public.decorator.nest';
 import { ZodValidationPipe } from 'src/common/pipes/validation.pipe';
 import { createUserSchema } from 'src/common/schemas/create-user.schema';
-import { CreateUserDtoInput } from 'src/dtos/create-user/create-user.dto.input';
+import { RegisterDtoInput } from 'src/modules/auth/dtos/register/register.dto.input';
 import { DtoOutputInterceptor } from 'src/common/interceptors/dto-output.interceptor';
-// import { CreateUserDtoOutput } from 'src/dtos/create-user/create-user.dto.output';
+import { RegisterDtoOutput } from './dtos/register/register.dto.output';
 
 @Controller('auth')
 export class AuthController {
@@ -26,11 +26,9 @@ export class AuthController {
   @Post('register')
   @Public()
   @UsePipes(new ZodValidationPipe(createUserSchema))
-  // En caso de requerir una transformación en la respuesta se usa un Dto
-  // @UseInterceptors(new DtoOutputInterceptor(CreateUserDtoOutput))
-  @UseInterceptors(new DtoOutputInterceptor())
-  registerUser(@Body() createUserDtoInput: CreateUserDtoInput) {
-    return this.authService.registerUser(createUserDtoInput);
+  @UseInterceptors(new DtoOutputInterceptor(RegisterDtoOutput))
+  registerUser(@Body() registerDto: RegisterDtoInput) {
+    return this.authService.registerUser(registerDto);
   }
 
   @Post('login')
